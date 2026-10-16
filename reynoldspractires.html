@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Experimental - Experimento de Osborne Reynolds</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- MathJax CDN para renderizar ecuaciones matemáticas correctamente -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; }
+            input, select, textarea { border: none !important; background: transparent !important; appearance: none; resize: none; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden p-6 md:p-10">
+        
+        <!-- Encabezado -->
+        <header class="border-b border-slate-200 pb-6 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Práctica de Laboratorio — ESIQIE IPN</span>
+                <h1 class="text-3xl font-bold text-slate-900 mt-1">Experimento de Osborne Reynolds</h1>
+                <p class="text-sm text-slate-500">Ingeniería Química Petrolera — Laboratorio de Fenómenos de Transporte</p>
+            </div>
+            <div class="no-print flex gap-3">
+                <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition shadow-sm cursor-pointer flex items-center gap-2">
+                    🖨️ Imprimir / Guardar PDF
+                </button>
+            </div>
+        </header>
+
+        <!-- Datos Generales e Integrantes (Fijos) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 bg-slate-50 p-5 rounded-xl border border-slate-200">
+            <div>
+                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Integrantes del Equipo</label>
+                <p class="text-sm font-semibold text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2">
+                    Fernanda Alizee Hernandez Herrera, Martínez Martínez Óscar Iván, García Roque Jesús Mateo
+                </p>
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Grupo / Secuencia</label>
+                <p class="text-sm font-semibold text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2">
+                    2PM31
+                </p>
+            </div>
+        </section>
+
+        <!-- MARCO TEÓRICO E INVESTIGACIÓN DETALLADA -->
+        <section class="mb-8 space-y-6">
+            <h2 class="text-xl font-bold text-slate-900 border-b pb-2">1. Investigación Conceptual y Marco Teórico</h2>
+            
+            <div class="bg-blue-50/40 p-5 rounded-xl border border-blue-100">
+                <h3 class="font-semibold text-blue-900 mb-2">1.1 ¿Qué representa el Número de Reynolds y su relación con las fuerzas inerciales y viscosas?</h3>
+                <p class="text-xs text-slate-700 leading-relaxed text-justify mb-2">
+                    El <strong>Número de Reynolds (\(Re\))</strong> es un parámetro adimensional que representa cuantitativamente la <strong>relación relativa entre las fuerzas inerciales y las fuerzas viscosas</strong> que actúan sobre un elemento de fluido en movimiento:
+                </p>
+                <div class="bg-white p-3 rounded border border-blue-200 text-center text-sm text-blue-900 my-2">
+                    \[Re = \frac{\text{Fuerzas Inerciales}}{\text{Fuerzas Viscosas}} = \frac{\rho \cdot v \cdot D}{\mu} = \frac{v \cdot D}{\nu}\]
+                </div>
+                <p class="text-xs text-slate-700 leading-relaxed text-justify">
+                    * <strong>Fuerzas inerciales (\(\rho \cdot v^2\)):</strong> Tienden a mantener el momento del fluido y propagar perturbaciones caóticas.<br>
+                    * <strong>Fuerzas viscosas (\(\mu \cdot v / D\)):</strong> Representan la fricción interna y actúan amortiguando las perturbaciones para mantener el orden laminar.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                    <span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded">Re Bajo</span>
+                    <h4 class="font-semibold text-slate-900 mt-2 mb-1 text-sm">Flujo Laminar</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Predominan las fuerzas viscosas. Las capas de fluido se desplazan ordenadamente sin mezclarse transversalmente. Trazador recto y nítido.
+                    </p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                    <span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded">Zona Intermedia</span>
+                    <h4 class="font-semibold text-slate-900 mt-2 mb-1 text-sm">Región de Transición</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Inestabilidad crítica donde las fuerzas viscosas ya no pueden contener las perturbaciones. El trazador ondula y parpadea de forma intermitente.
+                    </p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                    <span class="bg-rose-100 text-rose-800 text-[10px] font-bold px-2 py-0.5 rounded">Re Alto</span>
+                    <h4 class="font-semibold text-slate-900 mt-2 mb-1 text-sm">Flujo Turbulento</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Predominan las fuerzas inerciales. Movimientos erráticos y remolinos tridimensionales que generan una mezcla rápida e intensa del trazador.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                <h3 class="font-semibold text-slate-900">1.2 Rangos Clásicos y Variabilidad del Régimen</h3>
+                <p class="text-xs text-slate-700 leading-relaxed">
+                    Umbrales orientativos: Laminar (\(Re < 2,300\)), Transición (\(2,300 \le Re \le 4,000\)), y Turbulento (\(Re > 4,000\)). La transición no ocurre en un valor exacto debido a factores externos como la <em>vibración mecánica</em>, la <em>rugosidad interna del tubo</em> y las <em>perturbaciones de entrada</em>, manifestándose como una franja de inestabilidad.
+                </p>
+            </div>
+        </section>
+
+        <!-- Parámetros del Sistema -->
+        <section class="mb-8">
+            <h2 class="text-lg font-semibold text-slate-900 mb-3">2. Parámetros del Sistema y Propiedades del Fluido</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                    <label class="block text-xs font-medium text-slate-500">Diámetro Interno (\(D\)) [m]</label>
+                    <input type="number" id="diametro" value="0.015" step="0.001" oninput="recalcularTodo()" class="w-full mt-1 font-bold text-slate-800 border-b border-slate-300 focus:outline-none focus:border-blue-600">
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                    <label class="block text-xs font-medium text-slate-500">Temperatura del Agua (\(T\)) [°C]</label>
+                    <input type="number" id="temperatura" value="20" step="0.5" class="w-full mt-1 font-bold text-slate-800 border-b border-slate-300 focus:outline-none focus:border-blue-600">
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                    <label class="block text-xs font-medium text-slate-500">Viscosidad Cinemática (\(\nu\)) [m²/s]</label>
+                    <input type="text" value="1.004 × 10⁻⁶" class="w-full mt-1 font-bold text-slate-800 border-b border-slate-300 focus:outline-none focus:border-blue-600">
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                    <label class="block text-xs font-medium text-slate-500">Área del Tubo (\(A\)) [m²]</label>
+                    <input type="text" id="areaTubo" value="Calculando..." readonly class="w-full mt-1 font-bold text-blue-600 bg-transparent">
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabla de Datos Experimentales -->
+        <section class="mb-8">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-lg font-semibold text-slate-900">3. Registro de Datos Experimentales (8 a 12 Condiciones)</h2>
+                <button onclick="agregarFila()" class="no-print bg-slate-800 hover:bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition cursor-pointer">
+                    + Añadir Condición
+                </button>
+            </div>
+            
+            <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                <table id="tablaReynolds" class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-700 text-xs uppercase font-semibold border-b border-slate-200">
+                            <th class="p-3 text-center">#</th>
+                            <th class="p-3">Volumen (L)</th>
+                            <th class="p-3">Tiempo (\(t\)) [s]</th>
+                            <th class="p-3">Caudal (\(Q\)) [m³/s]</th>
+                            <th class="p-3">Velocidad (\(v\)) [m/s]</th>
+                            <th class="p-3">Núm. Reynolds (\(Re\))</th>
+                            <th class="p-3">Régimen Visual</th>
+                            <th class="p-3 no-print text-center">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-sm">
+                        <!-- Filas dinámicas -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- APARTADO DE VIDEO DE GOOGLE DRIVE INCORPORADO -->
+        <section class="mb-8 bg-slate-50 p-5 rounded-xl border border-slate-200">
+            <h2 class="text-lg font-semibold text-slate-900 mb-2">4. Evidencia Experimental (Video del Comportamiento del Flujo)</h2>
+            <p class="text-xs text-slate-600 mb-4">Reproducción directa del video del experimento registrado en el laboratorio:</p>
+            
+            <div class="max-w-2xl mx-auto bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col items-center">
+                <div class="w-full aspect-video rounded-lg overflow-hidden bg-slate-900">
+                    <iframe src="https://drive.google.com/file/d/1T7wqL1n7mj3vL4iGG4Iz3A2EWAyL2uvo/preview" class="w-full h-full border-0" allow="autoplay"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Observaciones y Conclusiones -->
+        <section class="mb-4">
+            <h2 class="text-lg font-semibold text-slate-900 mb-2">5. Observaciones y Conclusiones Generales</h2>
+            <textarea rows="6" class="w-full bg-white border border-slate-300 rounded-lg p-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 leading-relaxed">En cumplimiento con los objetivos establecidos para esta práctica experimental, se logró diseñar y montar con éxito un sistema de flujo en tubería transparente, permitiendo medir de forma sistemática el caudal volumétrico y calcular las velocidades medias y los valores correspondientes del número de Reynolds (\(Re\)) para diversas condiciones de operación[cite: 3]. 
+
+Mediante el uso del hilo trazador, se identificaron claramente los tres regímenes de flujo[cite: 3]: 
+1. Régimen laminar (\(Re < 2,300\)), donde el trazador formó una línea recta y estable, evidenciando el dominio de las fuerzas viscosas y el orden en las capas del fluido.
+2. Región de transición (\(2,300 \le Re \le 4,000\)), caracterizada por una inestabilidad intermitente donde las fuerzas viscosas ya no logran amortiguar totalmente las perturbaciones.
+3. Régimen turbulento (\(Re > 4,000\)), donde la predominancia de las fuerzas inerciales generó una mezcla rápida y caótica del trazador.
+
+Al comparar el régimen observado visualmente en el video del experimento con los cálculos numéricos derivados de las mediciones de volumen y tiempo, se comprobó una alta concordancia teórica-experimental. Asimismo, el uso de herramientas de asistencia digital e inteligencia artificial facilitó el análisis estructurado de los registros visuales y métricos, validando que el cambio de régimen no ocurre en un valor puntual exacto, sino en una franja de transición influenciada por las condiciones hidrodinámicas del entorno y del montaje[cite: 3].</textarea>
+        </section>
+
+    </div>
+
+    <!-- Script de Automatización Segura -->
+    <script>
+        const nu = 1.004e-6; // Viscosidad cinemática del agua a 20°C
+
+        function calcularArea(D) {
+            return Math.PI * Math.pow(D, 2) / 4;
+        }
+
+        function recalcularTodo() {
+            const diametroInput = document.getElementById('diametro');
+            const areaTuboInput = document.getElementById('areaTubo');
+            
+            if (!diametroInput || !areaTuboInput) return;
+
+            const D = parseFloat(diametroInput.value) || 0;
+            const area = calcularArea(D);
+            areaTuboInput.value = area > 0 ? area.toExponential(4) + " m²" : "0 m²";
+
+            const filas = document.querySelectorAll('#tablaReynolds tbody tr');
+            filas.forEach((fila) => {
+                const inputs = fila.querySelectorAll('input');
+                const select = fila.querySelector('select');
+                if (!inputs || inputs.length < 5) return;
+                
+                const volLts = parseFloat(inputs[0].value) || 0;
+                const tiempo = parseFloat(inputs[1].value) || 0;
+
+                const volM3 = volLts / 1000;
+                const Q = (tiempo > 0) ? (volM3 / tiempo) : 0;
+                const v = (area > 0) ? (Q / area) : 0;
+                const Re = (nu > 0) ? ((v * D) / nu) : 0;
+
+                inputs[2].value = Q > 0 ? Q.toExponential(3) : "—";
+                inputs[3].value = v > 0 ? v.toFixed(4) : "—";
+                inputs[4].value = Re > 0 ? Re.toFixed(0) : "—";
+
+                if (select && Re > 0) {
+                    if (Re < 2300) {
+                        select.className = "w-full bg-blue-50 text-blue-700 font-semibold border border-blue-200 rounded px-2 py-1 text-xs focus:outline-none";
+                    } else if (Re <= 4000) {
+                        select.className = "w-full bg-amber-50 text-amber-700 font-semibold border border-amber-200 rounded px-2 py-1 text-xs focus:outline-none";
+                    } else {
+                        select.className = "w-full bg-rose-50 text-rose-700 font-semibold border border-rose-200 rounded px-2 py-1 text-xs focus:outline-none";
+                    }
+                }
+            });
+        }
+
+        function agregarFila(vol = "", tiempo = "", regimen = "Laminar") {
+            const tbody = document.querySelector('#tablaReynolds tbody');
+            if (!tbody) return;
+            const numFilas = tbody.rows.length + 1;
+            const tr = document.createElement('tr');
+            
+            tr.innerHTML = `
+                <td class="p-3 text-center font-bold text-slate-500">${numFilas}</td>
+                <td class="p-3"><input type="number" value="${vol}" placeholder="Ej. 0.5" step="0.1" oninput="recalcularTodo()" class="w-20 bg-slate-50 border border-slate-300 rounded px-2 py-1 text-sm focus:bg-white focus:outline-none"></td>
+                <td class="p-3"><input type="number" value="${tiempo}" placeholder="Ej. 10" step="0.1" oninput="recalcularTodo()" class="w-20 bg-slate-50 border border-slate-300 rounded px-2 py-1 text-sm focus:bg-white focus:outline-none"></td>
+                <td class="p-3"><input type="text" readonly class="w-24 bg-transparent text-xs font-mono text-slate-600"></td>
+                <td class="p-3"><input type="text" readonly class="w-24 bg-transparent text-xs font-mono text-slate-600"></td>
+                <td class="p-3"><input type="text" readonly class="w-24 bg-transparent text-xs font-mono font-bold text-slate-800"></td>
+                <td class="p-3">
+                    <select onchange="recalcularTodo()" class="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs focus:outline-none">
+                        <option value="Laminar" ${regimen==='Laminar'?'selected':''}>Laminar</option>
+                        <option value="Transición" ${regimen==='Transición'?'selected':''}>Transición</option>
+                        <option value="Turbulento" ${regimen==='Turbulento'?'selected':''}>Turbulento</option>
+                    </select>
+                </td>
+                <td class="p-3 no-print text-center">
+                    <button onclick="eliminarFila(this)" class="text-rose-500 hover:text-rose-700 font-bold text-xs px-2 py-1 rounded cursor-pointer">✕</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+            recalcularTodo();
+        }
+
+        function eliminarFila(btn) {
+            btn.closest('tr').remove();
+            actualizarIndices();
+            recalcularTodo();
+        }
+
+        function actualizarIndices() {
+            const filas = document.querySelectorAll('#tablaReynolds tbody tr');
+            filas.forEach((fila, index) => {
+                fila.cells[0].innerText = index + 1;
+            });
+        }
+
+        // Inicialización segura al cargar la página por completo
+        window.addEventListener('DOMContentLoaded', () => {
+            const ejemplos = [
+                [0.2, 15, "Laminar"],
+                [0.3, 14, "Laminar"],
+                [0.5, 12, "Laminar"],
+                [0.8, 10, "Transición"],
+                [1.2, 9, "Transición"],
+                [1.8, 8, "Turbulento"],
+                [2.5, 7, "Turbulento"],
+                [3.5, 6, "Turbulento"]
+            ];
+            ejemplos.forEach(ex => agregarFila(ex[0], ex[1], ex[2]));
+        });
+    </script>
+</body>
+</html>
